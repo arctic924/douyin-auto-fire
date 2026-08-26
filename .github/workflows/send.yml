@@ -33,9 +33,8 @@ jobs:
     steps:
       - name: Clone repo via mirror
         run: |
-          mkdir -p "$GITHUB_WORKSPACE"
           cd "$GITHUB_WORKSPACE"
-          rm -rf ./* ./.git
+          find . -mindepth 1 -exec rm -rf {} + 2>/dev/null || true
           git clone --depth 1 https://gitclone.com/github.com/arctic924/douyin-auto-fire.git .
       - run: pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/
       - run: python -m playwright install chromium
