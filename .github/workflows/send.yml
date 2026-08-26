@@ -31,9 +31,12 @@ jobs:
       DINGTALK_SECRET: ${{ secrets.DINGTALK_SECRET }}
       HEADLESS: "true"
     steps:
-      - name: Use github mirror
-        run: git config --global url."https://gitclone.com/github.com/".insteadOf "https://github.com/"
-      - uses: actions/checkout@v4
+      - name: Clone repo via mirror
+        run: |
+          mkdir -p "$GITHUB_WORKSPACE"
+          cd "$GITHUB_WORKSPACE"
+          rm -rf ./* ./.git
+          git clone --depth 1 https://gitclone.com/github.com/arctic924/douyin-auto-fire.git .
       - run: pip install -r requirements.txt -i https://mirrors.aliyun.com/pypi/simple/
       - run: python -m playwright install chromium
         env:
